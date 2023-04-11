@@ -1,0 +1,26 @@
+[
+  {
+      "class_name": "代码托管网站",
+      "class_desc": "",
+      "link_list": [
+          {
+              "name": "Github",
+              "link": "https://github.com/",
+              "avatar": "https://github.com/favicon.ico",
+              "descr": "代码托管网站"
+          },
+          {
+              "name": "Gitee",
+              "link": "https://gitee.com/",
+              "avatar": "https://gitee.com/favicon.ico",
+              "descr": "代码托管网站"
+          },
+          {
+              "name": "Gitlab",
+              "link": "https://gitlab.com/",
+              "avatar": "https://gitlab.com/favicon.ico",
+              "descr": "代码托管网站"
+          }
+      ]
+  }
+]

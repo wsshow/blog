@@ -1,0 +1,27 @@
+#footer-wrap
+  if theme.footer.owner.enable
+    - var now = new Date()
+    - var nowYear = now.getFullYear()
+    if theme.footer.owner.since && theme.footer.owner.since != nowYear
+      .copyright!= `&copy;${theme.footer.owner.since} - ${nowYear} <i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i> ${config.author}`
+    else
+      .copyright!= `&copy;${nowYear} <i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i> ${config.author}`
+  if theme.footer.copyright
+    .framework-info
+      span.footer-separator 
+      a(href='https://hexo.io')
+        img(src=url_for(theme.footer.icon1) title='博客框架为Hexo' alt='hexo' data-ll-status='loading' class='entered loading')
+      span.footer-separator 
+      a(href='https://github.com/jerryc127/hexo-theme-butterfly')
+        img(src=url_for(theme.footer.icon2) title='主题采用butterfly' alt='主题采用butterfly' data-ll-status='loading' class='entered loading')
+      span.footer-separator 
+      a(href=url_for(theme.footer.owner.url))   
+        img(src=url_for(theme.footer.icon3) title='wsshow' alt='wsshow' data-ll-status='loading' class='entered loading')
+      span.footer-separator
+      a(href='https://www.jsdelivr.com/') 
+        img(src=url_for(theme.footer.icon4) title='本站使用JsDelivr为静态资源提供CDN加速' alt='jsd加速' data-ll-status='loading' class='entered loading')
+      span.footer-separator
+      a(href='http://creativecommons.org/licenses/by-nc-sa/4.0/') 
+        img(src=url_for(theme.footer.icon5) title='本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可' alt='协议' data-ll-status='loading' class='entered loading')
+  if theme.footer.custom_text
+    .footer_custom_text!=`${theme.footer.custom_text}`
