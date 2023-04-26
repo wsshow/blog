@@ -3,7 +3,7 @@ title: cpp常用函数（ws_utilities）
 date: 2021-07-23 19:18:30
 author: ws
 description: 常用方法
-categories: utils
+categories: utilities
 tags: [cpp]
 cover:
 ---
