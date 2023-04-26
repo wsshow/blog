@@ -20,21 +20,20 @@ import (
 )
 
 type Array struct {
-	data []interface{}
+	data []any
 }
 
 func NewArray() *Array {
 	return new(Array)
 }
 
-func (a *Array) Add(elems ...interface{}) {
+func (a *Array) Add(elems ...any) {
 	a.data = append(a.data, elems...)
 }
 
-func (a *Array) Remove(e interface{}) {
+func (a *Array) Remove(e any) {
 	d := a.data
-	cnt := len(d)
-	for i := 0; i < cnt; i++ {
+	for i, cnt := 0, len(d); i < cnt; i++ {
 		if d[i] == e {
 			d = append(d[:i], d[i+1:]...)
 			break
@@ -43,23 +42,21 @@ func (a *Array) Remove(e interface{}) {
 	a.data = d
 }
 
-func (a *Array) RemoveAll(e interface{}) {
+func (a *Array) RemoveAll(e any) {
 	d := a.data
-	cnt := len(d)
-	for i := 0; i < cnt; i++ {
+	for i := 0; i < len(d); {
 		if d[i] == e {
 			d = append(d[:i], d[i+1:]...)
-			continue
+		} else {
+			i++
 		}
 	}
 	a.data = d
 }
 
-func (a *Array) Contain(e interface{}) bool {
-	d := a.data
-	cnt := len(d)
-	for i := 0; i < cnt; i++ {
-		if d[i] == e {
+func (a *Array) Contain(e any) bool {
+	for _, v := range a.data {
+		if v == e {
 			return true
 		}
 	}
@@ -70,11 +67,9 @@ func (a *Array) Count() int {
 	return len(a.data)
 }
 
-func (a *Array) ForEach(f func(e interface{})) {
-	d := a.data
-	cnt := len(d)
-	for i := 0; i < cnt; i++ {
-		f(d[i])
+func (a *Array) ForEach(f func(any)) {
+	for _, v := range a.data {
+		f(v)
 	}
 }
 
@@ -82,7 +77,7 @@ func (a *Array) Clear() {
 	a.data = nil
 }
 
-func (a *Array) Data() []interface{} {
+func (a *Array) Data() []any {
 	return a.data
 }
 
@@ -90,16 +85,22 @@ func (a *Array) Sort(less func(i, j int) bool) {
 	sort.Slice(a.data, less)
 }
 
-func (a *Array) Filter(f func(e interface{}) bool) *Array {
-	newArr := NewArray()
-	d := a.data
-	cnt := len(d)
-	for i := 0; i < cnt; i++ {
-		if f(d[i]) {
-			newArr.Add(d[i])
+func (a *Array) Filter(f func(any) bool) *Array {
+	na := NewArray()
+	for _, v := range a.data {
+		if f(v) {
+			na.Add(f(v))
 		}
 	}
-	return newArr
+	return na
+}
+
+func (a *Array) Map(f func(any) any) *Array {
+	na := NewArray()
+	for _, v := range a.data {
+		na.Add(f(v))
+	}
+	return na
 }
 ```
 
@@ -109,64 +110,71 @@ func (a *Array) Filter(f func(e interface{}) bool) *Array {
 package array
 
 import (
-	"log"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-var arr = NewArray()
-
-func TestAdd(t *testing.T) {
-	arr.Add(1, 2, 3, 4, 5)
-	if arr.Count() != 5 {
-		t.Fatal("arr count should equal 5")
+func TestArray_Add(t *testing.T) {
+	type args struct {
+		elems []any
 	}
-	arr.ForEach(func(e interface{}) { e = e.(int) * 2; log.Println(e) })
-}
-
-func TestRemove(t *testing.T) {
-	arr.Add(1, 2, 3, 4, 5)
-	arr.Remove(2)
-	arr.Remove(1)
-	if arr.Count() != 3 {
-		t.Fatal("arr count should equal 3")
+	tests := []struct {
+		name     string
+		a        *Array
+		args     args
+		expected []any
+	}{
+		{name: "int", a: &Array{data: []any{1, 2}}, args: args{elems: []any{3}}, expected: []any{1, 2, 3}},
+		{name: "string", a: &Array{data: []any{"1"}}, args: args{elems: []any{"2", "3"}}, expected: []any{"1", "2", "3"}},
 	}
-	arr.ForEach(func(e interface{}) { log.Println(e) })
-}
-
-func TestClear(t *testing.T) {
-	arr.Add(1, 2, 3, 4, 5)
-	arr.Clear()
-	if arr.Count() != 0 {
-		t.Fatal("arr count should equal 0")
-	}
-	arr.ForEach(func(e interface{}) { log.Println(e) })
-}
-
-func TestSort(t *testing.T) {
-	arr.Add(5, 3, 1, 2, 4)
-	arr2 := NewArray()
-	arr2.Add(1, 2, 3, 4, 5)
-	arr.Sort(func(i, j int) bool {
-		return arr.Data()[i].(int) < arr.Data()[j].(int)
-	})
-	d1 := arr.Data()
-	d2 := arr2.Data()
-	for i := 0; i < 5; i++ {
-		if d1[i] != d2[i] {
-			t.FailNow()
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.a.Add(tt.args.elems...)
+			assert.Equal(t, tt.expected, tt.a.data, "they should be equal")
+		})
 	}
 }
 
-func TestFilter(t *testing.T) {
-	arr.Add(1, 2, 3, 4, 5)
-	a2 := arr.Filter(func(e interface{}) bool {
-		return e.(int) > 3
-	}).Filter(func(e interface{}) bool {
-		return e.(int) > 4
-	})
-	if a2.data[0] != 5 {
-		t.FailNow()
+func TestArray_Remove(t *testing.T) {
+	type args struct {
+		e any
+	}
+	tests := []struct {
+		name     string
+		a        *Array
+		args     args
+		expected []any
+	}{
+		{name: "int", a: &Array{data: []any{1, 2, 3}}, args: args{e: 2}, expected: []any{1, 3}},
+		{name: "string", a: &Array{data: []any{"1", "2", "3"}}, args: args{e: "1"}, expected: []any{"2", "3"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.a.Remove(tt.args.e)
+			assert.Equal(t, tt.expected, tt.a.data, "they should be equal")
+		})
+	}
+}
+
+func TestArray_RemoveAll(t *testing.T) {
+	type args struct {
+		e interface{}
+	}
+	tests := []struct {
+		name     string
+		a        *Array
+		args     args
+		expected []any
+	}{
+		{name: "int", a: &Array{data: []any{1, 2, 3, 3, 3}}, args: args{e: 3}, expected: []any{1, 2}},
+		{name: "string", a: &Array{data: []any{"1", "2", "2", "3"}}, args: args{e: "2"}, expected: []any{"1", "3"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.a.RemoveAll(tt.args.e)
+			assert.Equal(t, tt.expected, tt.a.data, "they should be equal")
+		})
 	}
 }
 ```
