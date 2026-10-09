@@ -17,12 +17,12 @@ menu:
     分类: /categories/ || fa fa-archive
     标签: /tags/ || fa fa-tags
     归档: /archives/ || fa fa-folder-open
-  生活 || fas fa-list:
-    相册: /photos/ || fa fa-camera-retro
-    音乐: /music/ || fa fa-music
-    影视: /movies/ || fas fa-video
-  友链: /links/ || fa fa-link
-  留言板: /comment/ || fa fa-paper-plane
+  # 生活 || fas fa-list:
+  #   相册: /photos/ || fa fa-camera-retro
+  #   音乐: /music/ || fa fa-music
+  #   影视: /movies/ || fas fa-video
+  # 友链: /links/ || fa fa-link
+  # 留言板: /comment/ || fa fa-paper-plane
   关于笔者: /about/ || fas fa-heart
 
 # Code Blocks (代碼相關)
