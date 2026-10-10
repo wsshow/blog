@@ -6,7 +6,7 @@ author: ws
 description: 逐字段讲清文章头部配置，附常用组合示例与踩坑
 categories: ["Hexo"]
 tags: ["Hexo", "Butterfly"]
-cover: false
+cover:
 ---
 
 ## 引言

@@ -6,7 +6,7 @@ author: ws
 description: 不只列 type 表格，讲清格式、示例与 commitlint/husky 落地
 categories: ["Git"]
 tags: ["Git", "工程化"]
-cover: false
+cover:
 ---
 
 ## 引言

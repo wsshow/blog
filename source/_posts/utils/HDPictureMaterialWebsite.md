@@ -6,7 +6,7 @@ author: ws
 description: 6 个常用免费图库的授权、适用场景与使用技巧
 categories: ["资源"]
 tags: ["图片素材", "资源"]
-cover: false
+cover:
 ---
 
 ## 引言
