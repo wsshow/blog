@@ -212,7 +212,7 @@ cover:
 
 写的是荆轲，也像在写他自己。人早已消失在 684 年的迷雾里，但那篇檄文像易水一样，寒了一千三百年。
 
-这个系列的另外四篇：[《讨曹操檄》](/2026/10/10/taocaoxi/)、[《与陈伯之书》](/2026/10/10/yuchenbozhishu/)、[《北山移文》](/2026/10/10/beishanyiwen/)、[《吕相绝秦》](/2026/10/10/lvxiangjueqin/)。
+这个系列的另外四篇：[《讨曹操檄》](/blog/2026/10/10/wenshi/taocaoxi/)、[《与陈伯之书》](/blog/2026/10/10/wenshi/yuchenbozhishu/)、[《北山移文》](/blog/2026/10/10/wenshi/beishanyiwen/)、[《吕相绝秦》](/blog/2026/10/10/wenshi/lvxiangjueqin/)。
 
 ## 参考资料
 
